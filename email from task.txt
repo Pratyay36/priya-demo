@@ -1,0 +1,24 @@
+{
+            "displayName": "send email",
+            "name": "send_email",
+            "taskReferenceName": "send_email_maololdgithn7zml08_ref",
+            "inputParameters": {
+              "method": "POST",
+              "uri": "https://api-autodesksandbox.wolkenservicedesk.com/wolken-secure/oauth/post",
+              "accept": "application/json",
+              "contentType": "multipart/form-data",
+              "domain": "Default",
+              "headers": {
+                "apiName": "SEND_EMAIL_NOTIFICATION"
+              },
+              "body": "{ \"emailRequestInfo\": null, \"emailFrom\": null, \"emailTo\": \"${JSON_JQ_TRANSFORM_kyptnap2lha_ref.output.result.flexfields.openedBy}\", \"emailCC\": null, \"emailSubject\": null, \"requestMasterId\":${workflow.input.requestId} , \"responseTemplateId\": 318,\"notificationRuleId\": 265, \"active\": false}",
+              "connectionTimeOut": "30000",
+              "readTimeOut": "30000"
+            },
+            "asyncComplete": false,
+            "optional": false,
+            "mapTicketIdToWorkflow": true,
+            "requestId": "",
+            "hideTask": false,
+            "type": "INVOKE_WOLKEN_CUSTOM_APIS"
+          }

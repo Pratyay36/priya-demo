@@ -1,0 +1,85 @@
+{
+            "name": "DO_WHILE",
+            "displayName": "DO WHILE",
+            "taskReferenceName": "DO_WHILE_9cujxuim1m5_ref",
+            "inputParameters": {
+              "count": "${INLINE_70ndy6jb6ot_ref.output.result}",
+              "num": "${JSON_JQ_TRANSFORM_4r0stat1zve_ref.output.result.counter}"
+            },
+            "type": "DO_WHILE",
+            "hideTask": false,
+            "optional": false,
+            "evaluatorType": "javascript",
+            "loopCondition": "if ($.num < $.count) { true; } else { false; }",
+            "loopOver": [
+              {
+                "name": "JSON_JQ_TRANSFORM",
+                "taskReferenceName": "JSON_JQ_TRANSFORM_4r0stat1zve_ref",
+                "inputParameters": {
+                  "num": "${workflow.variables.iterationCount}",
+                  "queryExpression": "{\"counter\": (.num | tonumber + 1), \"number\": ((.num | tonumber + 1) - 1)}\r\n"
+                },
+                "type": "JSON_JQ_TRANSFORM",
+                "startDelay": 0,
+                "optional": false,
+                "asyncComplete": false,
+                "displayName": "JSON JQ TRANSFORM",
+                "hideTask": false,
+                "category": "Integration",
+                "schemaName": "csgprismsandbox"
+              },
+              {
+                "displayName": "INVOKE WOLKEN CUSTOM APIS",
+                "name": "INVOKE_WOLKEN_CUSTOM_APIS",
+                "taskReferenceName": "INVOKE_WOLKEN_CUSTOM_APIS_w449doiu89xs2_ref",
+                "inputParameters": {
+                  "method": "POST",
+                  "uri": "https://api-csgprism-sandbox.wolkenservicedesk.com/wolken-secure/oauth/post",
+                  "accept": "application/json",
+                  "contentType": "application/x-www-form-urlencoded",
+                  "domain": "Default",
+                  "headers": {
+                    "apiName": "GET_WLK_DATA"
+                  },
+                  "body": {
+                    "dataApiName": "getCompactBomByRequestId",
+                    "data": "{\"requestId\":${JSON_JQ_TRANSFORM_ku14z5_ref.output.result.PCBOMrequestId.requestId},\"offset\":0}"
+                  }
+                },
+                "asyncComplete": false,
+                "optional": false,
+                "mapTicketIdToWorkflow": true,
+                "requestId": "",
+                "hideTask": false,
+                "type": "INVOKE_WOLKEN_CUSTOM_APIS"
+              },
+              {
+                "name": "SET_VARIABLE",
+                "taskReferenceName": "SET_VARIABLE_kspdd1bv0s_ref",
+                "inputParameters": {
+                  "iterationCount": "${JSON_JQ_TRANSFORM_4r0stat1zve_ref.output.result.counter}"
+                },
+                "type": "SET_VARIABLE",
+                "startDelay": 0,
+                "optional": false,
+                "asyncComplete": false,
+                "displayName": "SET VARIABLE",
+                "hideTask": false,
+                "category": "Integration",
+                "schemaName": "csgprismsandbox"
+              }
+            ]
+          },
+          {
+            "name": "LABEL_END_OF_DO_WHILE",
+            "taskReferenceName": "LABEL_END_OF_DO_WHILE_9cujxuim1m5_ref",
+            "inputParameters": {},
+            "type": "LABEL",
+            "startDelay": 0,
+            "optional": false,
+            "asyncComplete": false,
+            "displayName": "END OF DO WHILE",
+            "hideTask": false,
+            "category": "Integration",
+            "schemaName": "csgprismsandbox"
+          }
